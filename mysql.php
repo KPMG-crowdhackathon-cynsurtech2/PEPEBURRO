@@ -106,7 +106,7 @@ function get_all() {
 	$sth->execute($select->getBindValues());
 
 	// get the results back as an associative array
-	$result = $sth->fetch(PDO::FETCH_ASSOC);	   
+	$result = $sth->fetchAll(PDO::FETCH_ASSOC);	   
 
 	return $result;
 } 
@@ -137,6 +137,84 @@ function get_by_type_id($type_id) {
 		->where('type_id = :type_id')
 		->bindValues(array(             // bind these values
 			'type_id' => $type_id,
+			))
+	;
+		   
+	// prepare the statment
+	$sth = $pdo->prepare($select->getStatement());
+
+	// bind the values and execute
+	$sth->execute($select->getBindValues());
+
+	// get the results back as an associative array
+	$result = $sth->fetchAll(PDO::FETCH_ASSOC);	   
+
+	return $result;
+} 
+
+function get_by_type_name($customer) {
+    $pdo = GetConnection();
+
+	/* todo params to filter */
+	$query_factory = new QueryFactory('mysql');
+
+	$select = $query_factory->newSelect();
+
+
+	$select->cols(array(
+		'id',
+        'type_id',
+        'order_id',
+		'customer',
+		'status',
+		'provider_id',
+		'modify_date',
+		'claim_date',
+		
+		))
+		->from('contracts')
+		->where('customer = :customer')
+		->bindValues(array(             // bind these values
+			'customer' => $customer,
+			))
+	;
+		   
+	// prepare the statment
+	$sth = $pdo->prepare($select->getStatement());
+
+	// bind the values and execute
+	$sth->execute($select->getBindValues());
+
+	// get the results back as an associative array
+	$result = $sth->fetchAll(PDO::FETCH_ASSOC);	   
+
+	return $result;
+} 
+
+function get_by_type_status($status) {
+    $pdo = GetConnection();
+
+	/* todo params to filter */
+	$query_factory = new QueryFactory('mysql');
+
+	$select = $query_factory->newSelect();
+
+
+	$select->cols(array(
+		'id',
+        'type_id',
+        'order_id',
+		'customer',
+		'status',
+		'provider_id',
+		'modify_date',
+		'claim_date',
+		
+		))
+		->from('contracts')
+		->where('status = :status')
+		->bindValues(array(             // bind these values
+			'status' => $status,
 			))
 	;
 		   

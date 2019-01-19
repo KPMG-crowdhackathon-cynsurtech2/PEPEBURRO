@@ -24,6 +24,30 @@ elseif($op == "get_by_type_id"){
 	else
 		die("Select type_id");
 }
+elseif($op == "get_by_type_name"){
+	if($type_id){
+		$res = get_by_type_id($type_id);
+		echo json_encode($res);
+	}
+	else
+		die("Select get_by_type_name");
+}
+elseif($op == "get_by_type_status"){
+	if($type_id){
+		$res = get_by_type_id($type_id);
+		echo json_encode($res);
+	}
+	else
+		die("Select get_by_type_status");
+}
+elseif($op == "get_all"){
+	if($type_id){
+		$res = get_by_type_id($type_id);
+		echo json_encode($res);
+	}
+	else
+		die("Select get_all");
+}
 
 
 
