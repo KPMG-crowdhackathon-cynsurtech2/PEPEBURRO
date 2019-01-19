@@ -61,7 +61,7 @@ function change_type(){
 <div class="container">
 	<h1>Create insurance contract</h1>
 
-<?php
+<?
 require_once("settings.php");
 require_once("mysql.php");
 
@@ -75,6 +75,8 @@ if($op == "create"){
 	$flight_date = isset($_REQUEST['flight_date']) ? $_REQUEST['flight_date'] : "";
 	$event_date = isset($_REQUEST['event_date']) ? $_REQUEST['event_date'] : "";
 	$work_date = isset($_REQUEST['work_date']) ? $_REQUEST['work_date'] : "";
+	$event_location = isset($_REQUEST['event_location']) ? $_REQUEST['event_location'] : "";
+	$work_location = isset($_REQUEST['work_location']) ? $_REQUEST['work_location'] : "";
 	$customer_name = isset($_REQUEST['customer_name']) ? $_REQUEST['customer_name'] : "";
 	
 	$provider_id = isset($_REQUEST['provider_id']) ? $_REQUEST['provider_id'] : "";
@@ -88,15 +90,22 @@ if($op == "create"){
 	$contract['status'] = "start";
 	$contract['provider_id'] = $provider_id;
 	
-	if($insurance_type == "1")
+	if($insurance_type == "1"){
 		$claim_date = $flight_date;
-	if($insurance_type == "2")
+	}
+	if($insurance_type == "2"){
 		$claim_date = $event_date;
-	if($insurance_type == "3")
+		$location = $event_location;
+	}
+	if($insurance_type == "3"){
 		$claim_date = $work_date;
+		$location = $work_location;
+	}
 	
 	$claim_date = strtotime($claim_date);
 	$contract['claim_date'] = date("Y-m-d H:i:s", $claim_date);
+	
+	$contract['location'] = $location;
 	
 	add_contract($pdo, $contract);
 	//var_dump($contract);
@@ -118,7 +127,7 @@ if($op == "create"){
 			<option value="1">Flight delay</option>
 			<option value="2">Cancellation of outdoor event</option>
 			<option value="3">Employers liability</option>
-			<option value="4">Other...</option>
+			<option value="4">Ski trip cancellation</option>
 		</select>
 	  </div>
 	  
@@ -131,10 +140,14 @@ if($op == "create"){
 	  <div class="form-group" style="display: none" id="insurance_type_event">
 		<label for="event_date">Event date</label>
 		<input class="form-control datepicker" name="event_date" id="event_date">
+		<label for="event_date">Event Location</label>
+		<input class="form-control" name="event_location" id="event_location">
 	  </div>
 	  <div class="form-group" style="display: none" id="insurance_type_work">
 		<label for="work_date">Work date</label>
 		<input class="form-control datepicker" name="work_date" id="work_date">
+		<label for="event_date">Work Location</label>
+		<input class="form-control" name="work_location" id="work_location">
 	  </div>
 	  
 	  <div class="form-group">

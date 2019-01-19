@@ -1,7 +1,6 @@
 <?php
-// header('Content-Type: application/json');
 $configs = include('config.php');
-$city = 'Nicosia';
+$city = isset($_REQUEST['city']) ? $_REQUEST['city'] : "Nicosia";
 $country_state = 'cy';
 $format = 'json'; // json || xml
 $unit_sys = 'c'; // c - metric || f - imperial
@@ -23,6 +22,8 @@ function buildAuthorizationHeader($oauth) {
     $r .= implode(', ', $values);
     return $r;
 }
+
+
 $url = 'https://weather-ydn-yql.media.yahoo.com/forecastrss';
 $app_id = $configs['app_id'];
 $consumer_key = $configs['consumer_key'];
@@ -66,44 +67,54 @@ $curr_condition = (array) [
     "temperature" => $json["current_observation"]["condition"]["temperature"],
     "code" => $json["current_observation"]["condition"]["code"]
 ];
+
+$disaster = false;
+
 switch ($curr_condition["code"]) {
     case '0':
-        $curr_condition["weather_cond"] = "tornado";
+        $curr_condition["weather_cond"] = "Tornado";
+		$disaster = true;
         break;
     case '1':
-        $curr_condition["weather_cond"] = "tropical_storm";
+        $curr_condition["weather_cond"] = "Tropical Storm";
+		$disaster = true;
         break;
     case '2':
-        $curr_condition["weather_cond"] = "hurricane";
+        $curr_condition["weather_cond"] = "Hurricane";
+		$disaster = true;
         break;
     case '3':
-        $curr_condition["weather_cond"] = "severe_thunderstorms";
+        $curr_condition["weather_cond"] = "Severe Thunderstorms";
         break;
     case '4':
-        $curr_condition["weather_cond"] = "thunderstorms";
+        $curr_condition["weather_cond"] = "Thunderstorms";
         break;
     case '19':
-        $curr_condition["weather_cond"] = "dust";
+        $curr_condition["weather_cond"] = "Dust";
         break;
     case '20':
-        $curr_condition["weather_cond"] = "foggy";
+        $curr_condition["weather_cond"] = "Foggy";
         break;
     case '36':
-        $curr_condition["weather_cond"] = "hot";
+        $curr_condition["weather_cond"] = "Hot";
         break;
     case '41':
-        $curr_condition["weather_cond"] = "heavy_snow";
+        $curr_condition["weather_cond"] = "Heavy Snow";
         break;
     case '43':
-        $curr_condition["weather_cond"] = "heavy_snow";
+        $curr_condition["weather_cond"] = "Heavy snow";
         break;
     
     default:
-        $curr_condition["weather_cond"] = "all_good";
+        $curr_condition["weather_cond"] = "Fine";
         break;
 }
+
+$reply = "Current tempterature: ".$curr_condition["temperature"]." °C ".$curr_condition["weather_cond"]." <br />Wind: ".$curr_condition["speed"]." km/h. Visibility ".round($curr_condition["visibility"])." km";
+$curr_condition['reply'] = $reply;
+$curr_condition['disaster'] = $disaster;
 // print_r($curr_condition['speed']);
-print_r($curr_condition);
-return $curr_condition;
+//print_r($curr_condition);
+echo json_encode($curr_condition);
 // $return_data = json_decode($response);
 // print_r(json_encode($return_data));
