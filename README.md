@@ -15,7 +15,7 @@ Listed methods:
 To add contract to the system system. Input paramaters:
 * contract object (contract), including fields: 
 	* 'type_id',
-        * 'order_id',
+	* 'order_id',
 	* 'customer',
 	* 'status',
 	* 'provider_id',
@@ -24,22 +24,22 @@ To add contract to the system system. Input paramaters:
 ### get_by_id
 
 To get contract full details by id, input parameters:
-    * conract id (id)
+* conract id (id)
     
 ### get_by_type_id
 
 To get list of contracts of specific type full details by type_id, input parameters:
-    * type id (type_id)
+* type id (type_id)
 
 ### get_by_type_name
 
 To get list of contracts of specific customer full details by customer name, input parameters:
-    * customer name (customer)
+* customer name (customer)
 
 ### get_by_type_status
 
 To get list of claims of specific status full details by status, input parameters:
-    * claim status (status)
+* claim status (status)
     
 ### get_all
 
