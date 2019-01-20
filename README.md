@@ -13,13 +13,13 @@ Listed methods:
 ### add_contract
 
 To add contract to the system system. Input paramaters:
-*contract object (contract), including fields: 
-	*'type_id',
-        *'order_id',
-	*'customer',
-	*'status',
-	*'provider_id',
-	*'claim_date'
+-contract object (contract), including fields: 
+	-'type_id',
+        -'order_id',
+	-'customer',
+	-'status',
+	-'provider_id',
+	-'claim_date'
 
 ### get_by_id
 
